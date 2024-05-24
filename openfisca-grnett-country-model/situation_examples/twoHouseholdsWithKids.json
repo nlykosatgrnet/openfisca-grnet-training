@@ -1,0 +1,46 @@
+{
+    "persons": {
+        "Ari": {
+            "personal_income": {
+                "2011-01": 512
+            }
+        },
+        "Paulos": {
+            "personal_income": {
+                "2011-01": 600
+            }
+        },
+        "Leila": {},
+        "Kostas": {},
+        "Maria": {},
+        "Javier": {
+            "personal_income": {
+                "2011-01": 3000
+            }
+        },
+        "Mapushi": {},
+        "Amarak": {}
+    },
+    "families": {
+        "family_1": {
+            "children": [
+                "Leila",
+                "Kostas",
+                "Maria"
+            ],
+            "parents": [
+                "Ari",
+                "Paul"
+            ]
+        },
+        "family_2": {
+            "parents": [
+                "Javier"
+            ],
+            "children": [
+                "Mapushi",
+                "Amarak"
+            ]
+        }
+    }
+}

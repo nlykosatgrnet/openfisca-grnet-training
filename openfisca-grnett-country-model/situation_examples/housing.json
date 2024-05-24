@@ -1,0 +1,25 @@
+{
+    "persons": {
+        "Alicia": {
+            "birth": {
+                "2017-01": 0
+            },
+            "disposable_income": {
+                "2017-01": 0
+            }
+        }
+    },
+    "households": {
+        "household_1": {
+            "member": [
+                "Alicia"
+            ],
+            "housing_tax": {
+                "2017": 0
+            },
+            "housing_occupancy_status": {
+                "2017-01": 0
+            }
+        }
+    }
+}

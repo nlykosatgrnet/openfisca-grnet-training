@@ -1,0 +1,94 @@
+[project]
+name = "openfisca-grnet_training"
+version = "0.0.1"
+description = "OpenFisca Rules as Code model for Grnet Training."
+readme = "README.md"
+keywords = ["microsimulation", "tax", "benefit", "rac", "rules-as-code"]
+authors = []
+maintainers = []
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "License :: OSI Approved :: GNU Affero General Public License v3",
+    "Operating System :: POSIX",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "openfisca-core[web-api] >=41.4.5, <42.0.0"
+]
+
+[project.urls]
+Homepage = "git://github.com/nlykosatgrnet/openfisca-grnet_training.git"
+Repository = "git://github.com/nlykosatgrnet/openfisca-grnet_training.git"
+Documentation = "https://openfisca.org/doc"
+Issues = "git://github.com/nlykosatgrnet/openfisca-grnet_training.git/issues"
+Changelog = "git://github.com/nlykosatgrnet/openfisca-grnet_training.git/blob/main/CHANGELOG.md"
+
+[project.optional-dependencies]
+dev = [
+    "autopep8 >=2.0.4",
+    "flake8 >=7.0.0",
+    "isort >=5.13.2",
+    "pylint >=3.1.0",
+    "pyupgrade >=3.15.1",
+    "yamllint >=1.35.1"
+]
+
+[tool.pytest.ini_options]
+addopts = "--showlocals --doctest-modules"
+testpaths = [ "openfisca_grnet_training/tests" ]
+python_files = "**/*.py"
+filterwarnings = [
+    "error",
+    "ignore::UserWarning",
+    'ignore:function ham\(\) is deprecated:DeprecationWarning'
+]
+
+[tool.pylint.messages_control]
+disable = [
+    "invalid-name",
+    "missing-class-docstring",
+    "missing-function-docstring",
+    "line-too-long",
+    "no-self-argument",
+    "invalid-enum-extension",
+    "no-member",
+    "not-callable",
+    "duplicate-code",
+    "too-many-locals",
+    "fixme",
+    "unused-argument",
+    "redefined-outer-name"
+]
+score = "no"
+
+[tool.isort]
+case_sensitive = "true"
+force_alphabetical_sort_within_sections = "false"
+group_by_package = "true"
+include_trailing_comma = "true"
+multi_line_output = "8"
+py_version = "39"
+known_first_party = "openfisca_grnet_training"
+known_openfisca = [
+    "openfisca_core",
+    "openfisca_grnet_training"
+]
+known_typing = [
+    "mypy*", 
+    "*types*", 
+    "*typing*"
+]
+sections = [
+    "FUTURE",
+    "TYPING",
+    "STDLIB",
+    "THIRDPARTY",
+    "OPENFISCA",
+    "FIRSTPARTY",
+    "LOCALFOLDER"
+]
