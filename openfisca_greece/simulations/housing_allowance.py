@@ -1,5 +1,5 @@
 from openfisca_core.simulation_builder import SimulationBuilder
-from openfisca_country_template import CountryTaxBenefitSystem
+from openfisca_greece import CountryTaxBenefitSystem
 
 TEST_CASE = {
     'persons': {

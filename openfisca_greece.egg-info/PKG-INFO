@@ -1,3 +1,33 @@
+Metadata-Version: 2.1
+Name: openfisca_greece
+Version: 0.0.1
+Summary: OpenFisca Rules as Code model for Grnet Training.
+Project-URL: Homepage, git://github.com/nlykosatgrnet/openfisca-grnet_training.git
+Project-URL: Repository, git://github.com/nlykosatgrnet/openfisca-grnet_training.git
+Project-URL: Documentation, https://openfisca.org/doc
+Project-URL: Issues, git://github.com/nlykosatgrnet/openfisca-grnet_training.git/issues
+Project-URL: Changelog, git://github.com/nlykosatgrnet/openfisca-grnet_training.git/blob/main/CHANGELOG.md
+Keywords: microsimulation,tax,benefit,rac,rules-as-code
+Classifier: Development Status :: 1 - Planning
+Classifier: License :: OSI Approved :: GNU Affero General Public License v3
+Classifier: Operating System :: POSIX
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: openfisca-core[web-api]<42.0.0,>=41.4.5
+Provides-Extra: dev
+Requires-Dist: autopep8>=2.0.4; extra == "dev"
+Requires-Dist: flake8>=7.0.0; extra == "dev"
+Requires-Dist: isort>=5.13.2; extra == "dev"
+Requires-Dist: pylint>=3.1.0; extra == "dev"
+Requires-Dist: pyupgrade>=3.15.1; extra == "dev"
+Requires-Dist: yamllint>=1.35.1; extra == "dev"
+
 # OpenFisca Grnet Training
 
 The country whose law is modelled here has a very simple tax and benefit system.

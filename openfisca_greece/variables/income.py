@@ -8,11 +8,11 @@ See https://openfisca.org/doc/key-concepts/variables.html
 
 # Import from openfisca-core the Python objects used to code the legislation in OpenFisca
 from openfisca_core.holders import set_input_divide_by_period
-from openfisca_core.periods import MONTH
+from openfisca_core.periods import MONTH, YEAR
 from openfisca_core.variables import Variable
 
 # Import the Entities specifically defined for this tax and benefit system
-from openfisca_grnet_training.entities import Person, Family
+from openfisca_greece.entities import Person, Family
 
 
 # This variable is a pure input: it doesn't have a formula
@@ -59,16 +59,16 @@ class disposable_income(Variable):
             - person("social_security_contribution", period)
             )
 
-class eq_scale(Variable):
-    value_type = float
-    entity = Family
-    definition_period = YEAR
-    label = "isodinamh klimaka"
-    reference = "https://stats.gov.example/disposable_income"
+# class eq_scale(Variable):
+#     value_type = float
+#     entity = Family
+#     definition_period = YEAR
+#     label = "isodinamh klimaka"
+#     reference = "https://stats.gov.example/disposable_income"
 
-    def formula(family, period, parameters):
-        dependent_children_modifier = 
-        return family.sum("parents") + 
+#     def formula(family, period, parameters):
+#         dependent_children_modifier = 
+#         return family.sum("parents") + 
 
 class eq_income(Variable):
     value_type = float

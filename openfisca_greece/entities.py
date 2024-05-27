@@ -44,6 +44,16 @@ Household = build_entity(
         ],
     )
 
+"""
+Family is an example of a group entity.
+
+This entity represents all the people in a family. It has two roles:
+
+- `parent`: The one or two adults in charge of the household. There can be a maximum of 2 parents.
+- `child`: Other individuals living in the household.
+
+For more information, see: https://openfisca.org/doc/coding-the-legislation/50_entities.html
+"""
 Family = build_entity(
     key = "family",
     plural = "families",

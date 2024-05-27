@@ -41,7 +41,7 @@ check-style:
 	yamllint `git ls-files | grep "\.yaml$$"`
 
 test: clean check-syntax-errors check-style
-	openfisca test --country-package openfisca-grnet-country-template openfisca-grnet-country-template/tests
+	openfisca test --country-package openfisca_greece openfisca_greece/tests
 
-serve-local:
-	openfisca serve --country-package openfisca-grnet-country-template --bind 0.0.0.0:5001
+serve:
+	openfisca serve --country-package openfisca_greece --bind 0.0.0.0:5001

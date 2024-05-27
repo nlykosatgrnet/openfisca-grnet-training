@@ -11,7 +11,7 @@ from openfisca_core.periods import MONTH
 from openfisca_core.variables import Variable
 
 # Import the Entities specifically defined for this tax and benefit system
-from openfisca_grnet_training.entities import Household, Person, Family
+from openfisca_greece.entities import Household, Person, Family
 
 
 class basic_income(Variable):
@@ -67,19 +67,19 @@ class housing_allowance(Variable):
         """
         return household("rent", period) * parameters(period).benefits.housing_allowance
 
-class children_benefit(Variable):
-    value_type = float
-    entity = Family
-    definition_period = YEAR
-    label = "Children's benefit"
-    reference = "https://law.gov.example/children_benefit"
-    unit = "currency-EUR"
+# class children_benefit(Variable):
+#     value_type = float
+#     entity = Family
+#     definition_period = YEAR
+#     label = "Children's benefit"
+#     reference = "https://law.gov.example/children_benefit"
+#     unit = "currency-EUR"
 
-    def formula(household, period, parameters):
-        """
-        Children's benefit.
-        """
-        return
+#     def formula(household, period, parameters):
+#         """
+#         Children's benefit.
+#         """
+#         return
 
 # By default, you can use utf-8 characters in a variable. OpenFisca web API manages utf-8 encoding.
 class pension(Variable):

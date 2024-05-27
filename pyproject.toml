@@ -1,5 +1,5 @@
 [project]
-name = "openfisca-grnet_training"
+name = "openfisca_greece"
 version = "0.0.1"
 description = "OpenFisca Rules as Code model for Grnet Training."
 readme = "README.md"
@@ -40,7 +40,7 @@ dev = [
 
 [tool.pytest.ini_options]
 addopts = "--showlocals --doctest-modules"
-testpaths = [ "openfisca_grnet_training/tests" ]
+testpaths = [ "openfisca_greece/tests" ]
 python_files = "**/*.py"
 filterwarnings = [
     "error",
@@ -73,10 +73,10 @@ group_by_package = "true"
 include_trailing_comma = "true"
 multi_line_output = "8"
 py_version = "39"
-known_first_party = "openfisca_grnet_training"
+known_first_party = "openfisca_greece"
 known_openfisca = [
     "openfisca_core",
-    "openfisca_grnet_training"
+    "openfisca_greece"
 ]
 known_typing = [
     "mypy*", 

@@ -12,7 +12,7 @@ from openfisca_core.periods import MONTH
 from openfisca_core.variables import Variable
 
 # Import the Entities specifically defined for this tax and benefit system
-from openfisca_grnet_training.entities import Household
+from openfisca_greece.entities import Household
 
 
 # This variable is a pure input: it doesn't have a formula

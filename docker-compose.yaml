@@ -1,11 +1,10 @@
+# Prod
 services:
   openfisca:
     build:
       context: ./
       dockerfile: ./Dockerfile
-    volumes:
-      - ./:/app
-    command: make serve-local
+    command: make serve
     user: user:user
     ports:
       - 5001:5001
