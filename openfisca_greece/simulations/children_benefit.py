@@ -1,5 +1,5 @@
 from openfisca_core.simulation_builder import SimulationBuilder
-from openfisca_country_template import CountryTaxBenefitSystem
+from openfisca_greece import CountryTaxBenefitSystem
 
 # all children minors
 # all children depepdent
@@ -8,27 +8,30 @@ from openfisca_country_template import CountryTaxBenefitSystem
 
 TEST_CASE = {
     'persons': {
-        'Ari': {
-            'salary': {'2011-01': 5120}
-        },
-        'Paulos': {
-            'salary': {'2011': 3000}
-        },
+        'Ari': {},
+        'Paulos': {},
         'Leila': {},
         'Kostas': {},
         'Maria': {},
-        'Javier': {
-            'salary': {'2011-01': 30000}
-        },
+        'Javier': {},
         'Mapushi': {},
         'Amarak': {},
     },
-    'households': {
-        'household_1': {
+    'families': {
+        'family_1': {
             'children': ['Leila', 'Kostas', 'Maria'],
-            'parents': ['Ari', 'Paul'],
+            'parents': ['Ari', 'Paulos'],
+            'family_income': {
+                '2011': 10000,
+            },
         },
-        'household_2': {'parents': ['Javier']}
+        'family_2': {
+            'parents': ['Javier'],
+            'children': ['Mapushi', 'Amarak'],
+            'family_income': {
+                '2011': 16000,
+            },
+        }
     },
 }
 
@@ -37,7 +40,6 @@ tax_benefit_system = CountryTaxBenefitSystem()
 simulation_builder = SimulationBuilder()
 simulation = simulation_builder.build_from_entities(tax_benefit_system, TEST_CASE)
 
-children_benefit = simulation.calculate('children_benefit', '2011-01')
+children_benefit = simulation.calculate('children_benefit', '2011')
 
-print("households", simulation.household.ids)
-print("Children Benefit", children_benefit)
+print("children_benefit", children_benefit)

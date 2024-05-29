@@ -3,10 +3,10 @@ from openfisca_greece import CountryTaxBenefitSystem
 
 TEST_CASE = {
     'persons': {
-        'Aris': {
+        'Ari': {
             'salary': {'2011-01': 1000} # from date 2011-01 to now, the salary is 1000
         },
-        'Paulos': {},
+        'Paul': {},
         'Leila': {},
         'Kostas': {},
         'Maria': {},

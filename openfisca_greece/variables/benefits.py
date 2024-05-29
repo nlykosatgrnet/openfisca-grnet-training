@@ -7,8 +7,9 @@ See https://openfisca.org/doc/key-concepts/variables.html
 """
 
 # Import from openfisca-core the Python objects used to code the legislation in OpenFisca
-from openfisca_core.periods import MONTH
+from openfisca_core.periods import MONTH, YEAR
 from openfisca_core.variables import Variable
+import numpy as np
 
 # Import the Entities specifically defined for this tax and benefit system
 from openfisca_greece.entities import Household, Person, Family
@@ -67,19 +68,48 @@ class housing_allowance(Variable):
         """
         return household("rent", period) * parameters(period).benefits.housing_allowance
 
-# class children_benefit(Variable):
-#     value_type = float
-#     entity = Family
-#     definition_period = YEAR
-#     label = "Children's benefit"
-#     reference = "https://law.gov.example/children_benefit"
-#     unit = "currency-EUR"
+class children_benefit(Variable):
+    value_type = float
+    entity = Family
+    definition_period = YEAR
+    label = "Children benefit"
+    reference = "https://law.gov.example/children_benefit"
+    unit = "currency-EUR"
+    documentation = """
+    Children benefit good to have info here
+    """
 
-#     def formula(household, period, parameters):
-#         """
-#         Children's benefit.
-#         """
-#         return
+    def formula(family, period):
+        """
+        Children benefit.
+        """
+        # TODO: Add citizenship check of applicant
+        # TODO: Add citizenship check
+        # TODO: Add dependent children check
+        dependent_children = family.nb_persons(Family.CHILD)
+        eq_income = family("eq_income", period)
+        benefits = np.zeros_like(eq_income)
+        print(eq_income)
+        # 1) create conditions
+        cond1 = (eq_income >= 0) & (eq_income <= 6000)
+        cond2 = (eq_income >= 6001) & (eq_income <= 10000)
+        cond3 = (eq_income >= 10001) & (eq_income <= 15000)
+
+        # 2) apply conditions on vectors according to income range
+        benefits[cond1 & (dependent_children > 0) & (dependent_children >= 2)] = 70 * dependent_children[cond1 & (dependent_children > 0) & (dependent_children >= 2)]
+        benefits[cond1 & (dependent_children > 3)] = 140 * (dependent_children[cond1 & (dependent_children > 3)] - 2) + (70 * 2)
+
+        benefits[cond2 & (dependent_children > 0) & (dependent_children >= 2)] = 42 * dependent_children[cond2 & (dependent_children > 0) & (dependent_children >= 2)]
+        benefits[cond2 & (dependent_children > 3)] = 84 * (dependent_children[cond2 & (dependent_children > 3)] - 2) + (42 * 2)
+
+        benefits[cond3 & (dependent_children > 0) & (dependent_children >= 2)] = 28 * dependent_children[cond3 & (dependent_children > 0) & (dependent_children >= 2)]
+        benefits[cond3 & (dependent_children > 3)] = 56 * (dependent_children[cond3 & (dependent_children > 3)] - 2) + (28 * 2)
+
+        # 3) default case for all other incomes
+        benefits[~(cond1 | cond2 | cond3)] = 0
+        
+        return benefits 
+
 
 # By default, you can use utf-8 characters in a variable. OpenFisca web API manages utf-8 encoding.
 class pension(Variable):

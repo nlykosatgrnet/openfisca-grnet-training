@@ -70,15 +70,15 @@ Family = build_entity(
             "max": 2,
             "subroles": ["first_parent", "second_parent"],
             "doc": "The one or two adults in charge of the household.",
-            },
+        },
         {
             "key": "child",
             "plural": "children",
             "label": "Child",
             "doc": "Other individuals living in the household.",
-            },
-        ],
-    )
+        },
+    ],
+)
 
 Person = build_entity(
     key = "person",
@@ -95,6 +95,6 @@ Person = build_entity(
     For more information, see: https://openfisca.org/doc/coding-the-legislation/50_entities.html
     """,
     is_person = True,
-    )
+)
 
 entities = [Household, Person, Family]
