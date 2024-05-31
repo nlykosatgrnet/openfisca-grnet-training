@@ -59,13 +59,11 @@ class eq_scale(Variable):
         cond1 = (family.nb_persons(Family.PARENT) == 0)
         cond2 = (family.nb_persons(Family.PARENT) == 1)
         cond3 = (family.nb_persons(Family.PARENT) == 2)
-        # family_income = family("family_income", period)
 
         eq_scales = np.zeros_like(family("family_income", period), dtype=float)  
         eq_scales[cond1] = family.nb_persons(Family.CHILD)[cond1] * 0.25
         eq_scales[cond2] = 1.5 + ((family.nb_persons(Family.CHILD)[cond2] - 1 ) * 0.25)
         eq_scales[cond3] = 1.5 + family.nb_persons(Family.CHILD)[cond3] * 0.25
-
         return eq_scales
 
 class eq_income(Variable):
@@ -77,5 +75,3 @@ class eq_income(Variable):
 
     def formula(family, period):
         return family("family_income", period) / family("eq_scale", period)
-
-

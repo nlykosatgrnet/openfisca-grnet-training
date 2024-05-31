@@ -89,7 +89,6 @@ class children_benefit(Variable):
         dependent_children = family.nb_persons(Family.CHILD)
         eq_income = family("eq_income", period)
         benefits = np.zeros_like(eq_income)
-        print(eq_income)
         # 1) create conditions
         cond1 = (eq_income >= 0) & (eq_income <= 6000)
         cond2 = (eq_income >= 6001) & (eq_income <= 10000)
@@ -97,18 +96,18 @@ class children_benefit(Variable):
 
         # 2) apply conditions on vectors according to income range
         benefits[cond1 & (dependent_children > 0) & (dependent_children >= 2)] = 70 * dependent_children[cond1 & (dependent_children > 0) & (dependent_children >= 2)]
-        benefits[cond1 & (dependent_children > 3)] = 140 * (dependent_children[cond1 & (dependent_children > 3)] - 2) + (70 * 2)
+        benefits[cond1 & (dependent_children >= 3)] = 140 * (dependent_children[cond1 & (dependent_children >= 3)] - 2) + (70 * 2)
 
         benefits[cond2 & (dependent_children > 0) & (dependent_children >= 2)] = 42 * dependent_children[cond2 & (dependent_children > 0) & (dependent_children >= 2)]
-        benefits[cond2 & (dependent_children > 3)] = 84 * (dependent_children[cond2 & (dependent_children > 3)] - 2) + (42 * 2)
+        benefits[cond2 & (dependent_children >= 3)] = 84 * (dependent_children[cond2 & (dependent_children >= 3)] - 2) + (42 * 2)
 
         benefits[cond3 & (dependent_children > 0) & (dependent_children >= 2)] = 28 * dependent_children[cond3 & (dependent_children > 0) & (dependent_children >= 2)]
-        benefits[cond3 & (dependent_children > 3)] = 56 * (dependent_children[cond3 & (dependent_children > 3)] - 2) + (28 * 2)
+        benefits[cond3 & (dependent_children >= 3)] = 56 * (dependent_children[cond3 & (dependent_children >= 3)] - 2) + (28 * 2)
 
         # 3) default case for all other incomes
         benefits[~(cond1 | cond2 | cond3)] = 0
         
-        return benefits 
+        return benefits # this one is per month FRONTEND: Display both per month and per year amount
 
 
 # By default, you can use utf-8 characters in a variable. OpenFisca web API manages utf-8 encoding.
