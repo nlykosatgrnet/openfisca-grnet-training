@@ -79,7 +79,7 @@ class children_benefit(Variable):
     Children benefit good to have info here
     """
 
-    def formula(family, period):
+    def formula(family, period, parameters):
         """
         Children benefit.
         """
@@ -88,26 +88,55 @@ class children_benefit(Variable):
         # TODO: Add dependent children check
         dependent_children = family.nb_persons(Family.CHILD)
         eq_income = family("eq_income", period)
-        benefits = np.zeros_like(eq_income)
+
+        # benefits = np.zeros_like(eq_income)
         # 1) create conditions
-        cond1 = (eq_income >= 0) & (eq_income <= 6000)
-        cond2 = (eq_income >= 6001) & (eq_income <= 10000)
-        cond3 = (eq_income >= 10001) & (eq_income <= 15000)
+        # cond1 = (eq_income >= 0) & (eq_income <= 6000)
+        # cond2 = (eq_income > 6000) & (eq_income <= 10000)
+        # cond3 = (eq_income > 10000) & (eq_income <= 15000)
 
-        # 2) apply conditions on vectors according to income range
-        benefits[cond1 & (dependent_children > 0) & (dependent_children >= 2)] = 70 * dependent_children[cond1 & (dependent_children > 0) & (dependent_children >= 2)]
-        benefits[cond1 & (dependent_children >= 3)] = 140 * (dependent_children[cond1 & (dependent_children >= 3)] - 2) + (70 * 2)
+        # # 2) apply conditions on vectors according to income range
+        # benefits[cond1 & (dependent_children > 0) & (dependent_children >= 2)] = 70 * dependent_children[cond1 & (dependent_children > 0) & (dependent_children >= 2)]
+        # benefits[cond1 & (dependent_children >= 3)] = 140 * (dependent_children[cond1 & (dependent_children >= 3)] - 2) + (70 * 2)
 
-        benefits[cond2 & (dependent_children > 0) & (dependent_children >= 2)] = 42 * dependent_children[cond2 & (dependent_children > 0) & (dependent_children >= 2)]
-        benefits[cond2 & (dependent_children >= 3)] = 84 * (dependent_children[cond2 & (dependent_children >= 3)] - 2) + (42 * 2)
+        # benefits[cond2 & (dependent_children > 0) & (dependent_children >= 2)] = 42 * dependent_children[cond2 & (dependent_children > 0) & (dependent_children >= 2)]
+        # benefits[cond2 & (dependent_children >= 3)] = 84 * (dependent_children[cond2 & (dependent_children >= 3)] - 2) + (42 * 2)
 
-        benefits[cond3 & (dependent_children > 0) & (dependent_children >= 2)] = 28 * dependent_children[cond3 & (dependent_children > 0) & (dependent_children >= 2)]
-        benefits[cond3 & (dependent_children >= 3)] = 56 * (dependent_children[cond3 & (dependent_children >= 3)] - 2) + (28 * 2)
+        # benefits[cond3 & (dependent_children > 0) & (dependent_children >= 2)] = 28 * dependent_children[cond3 & (dependent_children > 0) & (dependent_children >= 2)]
+        # benefits[cond3 & (dependent_children >= 3)] = 56 * (dependent_children[cond3 & (dependent_children >= 3)] - 2) + (28 * 2)
 
-        # 3) default case for all other incomes
-        benefits[~(cond1 | cond2 | cond3)] = 0
-        
+        # # 3) default case for all other incomes
+        # benefits[~(cond1 | cond2 | cond3)] = 0
+
+        eq_income_scale = family("eq_income_scale", period)        
+        P = parameters(period).benefits.children_benefit.children_equivalent_scale
+        per_child_benefit = P.calc(eq_income_scale)
+
+        benefits = np.zeros_like(eq_income)
+        benefits = dependent_children * per_child_benefit + (dependent_children >= 3) * (dependent_children[(dependent_children >= 3)] - 2) * per_child_benefit
+
         return benefits # this one is per month FRONTEND: Display both per month and per year amount
+
+class eq_income_scale(Variable):
+    value_type = int
+    entity = Family
+    definition_period = YEAR
+    label = "Children benefit eq_income_scale"
+    reference = "https://law.gov.example/children_benefit"
+    # unit = "currency-EUR"
+    documentation = """
+    Children benefit good to have info here
+    """
+
+    def formula(family, period, parameters):
+        """
+        Children benefit.
+        """
+        eq_income = family("eq_income", period)
+
+        eq_income_scale = parameters(period).benefits.children_benefit.eq_income_scale
+
+        return eq_income_scale.calc(eq_income)
 
 
 # By default, you can use utf-8 characters in a variable. OpenFisca web API manages utf-8 encoding.

@@ -1,0 +1,33 @@
+description: Children benefit parents equivalent scale
+metadata:
+  type: single_amount
+  threshold_unit: number
+  amount_unit: int
+  reference: https://law.gov.example/children-allowance-amount
+documentation: |
+  a description for equivalent scale
+brackets:
+  - amount: # Define a 1st bracket
+      2018-01-01:
+        value: 70
+    threshold:
+      2018-01-01:
+        value: 1
+  - amount: # Define a 2nd bracket
+      2018-01-01:
+        value: 42
+    threshold:
+      2018-01-01:
+        value: 2
+  - amount: # Define a 3rd bracket
+      2018-01-01:
+        value: 28
+    threshold:
+      2018-01-01:
+        value: 3
+  - amount: # Define a 4th bracket
+      2018-01-01:
+        value: 0
+    threshold:
+      2018-01-01:
+        value: 4

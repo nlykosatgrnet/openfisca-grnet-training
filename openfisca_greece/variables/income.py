@@ -54,16 +54,19 @@ class eq_scale(Variable):
     label = "isodinami klimaka"
     reference = "https://stats.gov.example/disposable_income"
 
-    def formula(family, period):
+    def formula(family, period, parameters):
 
-        cond1 = (family.nb_persons(Family.PARENT) == 0)
-        cond2 = (family.nb_persons(Family.PARENT) == 1)
-        cond3 = (family.nb_persons(Family.PARENT) == 2)
+        # cond1 = (family.nb_persons(Family.PARENT) == 0)
+        # cond2 = (family.nb_persons(Family.PARENT) == 1)
+        # cond3 = (family.nb_persons(Family.PARENT) == 2)
 
-        eq_scales = np.zeros_like(family("family_income", period), dtype=float)  
-        eq_scales[cond1] = family.nb_persons(Family.CHILD)[cond1] * 0.25
-        eq_scales[cond2] = 1.5 + ((family.nb_persons(Family.CHILD)[cond2] - 1 ) * 0.25)
-        eq_scales[cond3] = 1.5 + family.nb_persons(Family.CHILD)[cond3] * 0.25
+        # eq_scales = np.zeros_like(family("family_income", period), dtype=float)
+        # eq_scales[cond1] = family.nb_persons(Family.CHILD)[cond1] * 0.25
+        # eq_scales[cond2] = 1.5 + ((family.nb_persons(Family.CHILD)[cond2] - 1 ) * 0.25)
+        # eq_scales[cond3] = 1.5 + family.nb_persons(Family.CHILD)[cond3] * 0.25
+
+        parent_eq = parameters(period).benefits.children_benefit.parents_equivalent_scale
+        eq_scales = parent_eq.calc(family.nb_persons(Family.PARENT)) + family.nb_persons(Family.CHILD) * parameters(period).benefits.children_benefit.per_child_scale_benefit + (family.nb_persons(Family.PARENT) == 1) * parameters(period).benefits.children_benefit.extra_scale_benefit
         return eq_scales
 
 class eq_income(Variable):
