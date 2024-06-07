@@ -1,0 +1,52 @@
+# Test files describe situations and their expected outcomes
+# We can run this test on our command line using `openfisca-run-test children_benefit_eq_scale.yaml`
+
+- name: eq_scale for family with 2 parents and 3 children.
+  period: 2019
+  input:
+    family:
+      children: ['Leila']
+      parents: ['Ari']
+      family_income: 10000
+    persons:
+      Ari:
+        birth: 1961-01-15
+        salary:
+          2017-01: 2400
+      Leila:
+        birth: 2002-01-15
+        salary:
+          2016: 0
+  output:
+    eq_scale: 1.5
+
+- name: eq_scale for family with 2 parents and 3 children.
+  period: 2019
+  input:
+    family:
+      children: ['Leila', 'Mapushi', 'Amarak']
+      parents: ['Ari', 'Paulos']
+      family_income: 10000
+    persons:
+      Ari:
+        birth: 1961-01-15
+        salary:
+          2017-01: 2400
+      Paulos:
+        birth: 1961-01-15
+        salary:
+          2017-01: 2400
+      Amarak:
+        birth: 2002-01-15
+        salary:
+          2016: 0
+      Leila:
+        birth: 2002-01-15
+        salary:
+          2016: 0
+      Mapushi:
+        birth: 2002-01-15
+        salary:
+          2016: 0
+  output:
+    eq_scale: 2.25

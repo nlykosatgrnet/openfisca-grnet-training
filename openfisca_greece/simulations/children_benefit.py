@@ -13,9 +13,11 @@ TEST_CASE = {
         'Leila': {},
         'Kostas': {},
         'Maria': {},
+        'Mara': {},
         'Javier': {},
         'Mapushi': {},
         'Amarak': {},
+        'Amaraki': {},
     },
     'families': {
         'family_1': {
@@ -30,6 +32,13 @@ TEST_CASE = {
             'children': ['Mapushi', 'Amarak'],
             'family_income': {
                 '2019': 16000,
+            },
+        },
+        'family_3': {
+            'parents': ['Mara'],
+            'children': ['Amaraki'],
+            'family_income': {
+                '2019': 10000,
             },
         }
     },
