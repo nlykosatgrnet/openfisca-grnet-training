@@ -6,13 +6,14 @@ A variable is a property of an Entity such as a Person, a Household…
 See https://openfisca.org/doc/key-concepts/variables.html
 """
 
+import numpy as np
+
 # Import from openfisca-core the Python objects used to code the legislation in OpenFisca
 from openfisca_core.periods import MONTH, YEAR
 from openfisca_core.variables import Variable
-import numpy as np
 
 # Import the Entities specifically defined for this tax and benefit system
-from openfisca_greece.entities import Household, Person, Family
+from openfisca_greece.entities import Family, Household, Person
 
 
 class basic_income(Variable):
@@ -68,6 +69,7 @@ class housing_allowance(Variable):
         """
         return household("rent", period) * parameters(period).benefits.housing_allowance
 
+
 class children_benefit(Variable):
     value_type = float
     entity = Family
@@ -108,14 +110,15 @@ class children_benefit(Variable):
         # # 3) default case for all other incomes
         # benefits[~(cond1 | cond2 | cond3)] = 0
 
-        eq_income_scale = family("eq_income_scale", period)        
+        eq_income_scale = family("eq_income_scale", period)
         P = parameters(period).benefits.children_benefit.children_equivalent_scale
         per_child_benefit = P.calc(eq_income_scale)
 
         benefits = np.zeros_like(eq_income)
         benefits = dependent_children * per_child_benefit + (dependent_children >= 3) * (dependent_children[(dependent_children >= 3)] - 2) * per_child_benefit
 
-        return benefits # this one is per month FRONTEND: Display both per month and per year amount
+        return benefits  # this one is per month FRONTEND: Display both per month and per year amount
+
 
 class eq_income_scale(Variable):
     value_type = int

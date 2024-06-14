@@ -1,4 +1,9 @@
+"""
+This file demonstrates a simulation of some modelled legislation.
+"""
+
 from openfisca_core.simulation_builder import SimulationBuilder
+
 from openfisca_greece import CountryTaxBenefitSystem
 
 # all children minors
@@ -18,31 +23,31 @@ TEST_CASE = {
         'Mapushi': {},
         'Amarak': {},
         'Amaraki': {},
-    },
+        },
     'families': {
         'family_1': {
             'children': ['Leila', 'Kostas', 'Maria'],
             'parents': ['Ari', 'Paulos'],
             'family_income': {
                 '2019': 10000,
+                },
             },
-        },
         'family_2': {
             'parents': ['Javier'],
             'children': ['Mapushi', 'Amarak'],
             'family_income': {
                 '2019': 16000,
+                },
             },
-        },
         'family_3': {
             'parents': ['Mara'],
             'children': ['Amaraki'],
             'family_income': {
                 '2019': 10000,
-            },
-        }
-    },
-}
+                },
+            }
+        },
+    }
 
 tax_benefit_system = CountryTaxBenefitSystem()
 
