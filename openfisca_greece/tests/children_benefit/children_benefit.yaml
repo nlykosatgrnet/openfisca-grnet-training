@@ -6,7 +6,10 @@
   input:
     family:
       children: ['Leila']
-      parents: ['Ari']
+      parents: [
+        'Ari':
+          [role: 'first_parent']
+      ]
       family_income: 10000
     persons:
       Ari:
@@ -25,7 +28,12 @@
   input:
     family:
       children: ['Leila', 'Mapushi', 'Amarak']
-      parents: ['Ari', 'Paulos']
+      parents: [
+        'Ari':
+            [role: 'first_parent'],
+        'Paulos':
+            [role: 'second_parent']
+        ]
       family_income: 10000
     persons:
       Ari:

@@ -8,13 +8,25 @@ from openfisca_greece import CountryTaxBenefitSystem
 
 TEST_CASE = {
     'persons': {
-        'Ari': {},
-        'Paulos': {},
+        'Ari': {
+            'categ_of_citizenship' : { '2019': 'Έλληνας πολίτης' },
+            'tax_years':{ '2019': 5 }
+            },
+        'Paulos': {
+            'categ_of_citizenship' : { '2019': 'Πολίτης άλλου κράτους' },
+            'tax_years':{ '2019': 15 }
+            },
         'Leila': {},
         'Kostas': {},
         'Maria': {},
-        'Mara': {},
-        'Javier': {},
+        'Mara': {
+            'categ_of_citizenship' : { '2019': 'Πολίτης άλλου κράτους' },
+            'tax_years':{ '2019': 6 }
+            },
+        'Javier': {
+            'categ_of_citizenship' : { '2019': 'Πολίτης άλλου κράτους' },
+            'tax_years':{ '2019': 16 }
+            },
         'Mapushi': {},
         'Amarak': {},
         'Amaraki': {},
@@ -53,7 +65,9 @@ children_benefit = simulation.calculate('children_benefit', '2019')
 eq_income = simulation.calculate('eq_income', '2019')
 eq_income_scale = simulation.calculate('eq_income_scale', '2019')
 eq_scale = simulation.calculate('eq_scale', '2019')
+citizenship = simulation.calculate('child_benefit_citizenship', '2019')
 
+print("child_benefit_citizenship", citizenship)
 print("eq_scale", eq_scale)
 print("eq_income", eq_income)
 print("eq_income_scale", eq_income_scale)

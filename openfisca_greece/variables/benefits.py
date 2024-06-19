@@ -111,9 +111,12 @@ class children_benefit(Variable):
         eq_income_scale = family("eq_income_scale", period)        
         P = parameters(period).benefits.children_benefit.children_equivalent_scale
         per_child_benefit = P.calc(eq_income_scale)
+        first_parent_citizenship = family.first_parent("child_benefit_citizenship", period)
+        second_parent_citizenship = family.second_parent("child_benefit_citizenship", period)
+        parent_citizenship = ( first_parent_citizenship + second_parent_citizenship ) > 0
 
         benefits = np.zeros_like(eq_income)
-        benefits = dependent_children * per_child_benefit + (dependent_children >= 3) * (dependent_children[(dependent_children >= 3)] - 2) * per_child_benefit
+        benefits = parent_citizenship * (dependent_children * per_child_benefit + (dependent_children >= parameters(period).benefits.children_benefit.multi_child) * (dependent_children[(dependent_children >= parameters(period).benefits.children_benefit.multi_child)] - (parameters(period).benefits.children_benefit.multi_child -1)) * per_child_benefit)
 
         return benefits # this one is per month FRONTEND: Display both per month and per year amount
 
@@ -137,6 +140,33 @@ class eq_income_scale(Variable):
         eq_income_scale = parameters(period).benefits.children_benefit.eq_income_scale
 
         return eq_income_scale.calc(eq_income)
+
+
+class child_benefit_citizenship(Variable):
+    value_type = int
+    entity = Person
+    definition_period = YEAR
+    label = "Child benefit citizenship"
+
+    def formula(person, period, parameters):
+        """
+        Child benefit citizenship.
+        """
+        categ_of_citizenship = person("categ_of_citizenship", period)
+        tax_years = person("tax_years", period)
+
+        first_category = [
+            'Έλληνας πολίτης',
+            'Ομογενής αλλοδαπός',
+            'Ανιθαγενής',
+            'Πολίτης κράτους-μέλους της ΕΕ',
+            'Δικαιούχος του ανθρωπιστικού καθεστώτος',
+            'Πολίτης Νορβηγίας, Ισλανδίας, Λιχτενστάιν ή Ελβετία'
+                          ]
+        second_category = ['Πολίτης άλλου κράτους']
+
+        monimos_katoikos = (tax_years >= parameters(period).benefits.children_benefit.first_category_years) * (np.isin(categ_of_citizenship, first_category)) + (tax_years >= parameters(period).benefits.children_benefit.second_category_years) * (np.isin(categ_of_citizenship, second_category))
+        return monimos_katoikos  # If is monimos_katoikos
 
 
 # By default, you can use utf-8 characters in a variable. OpenFisca web API manages utf-8 encoding.
@@ -203,3 +233,18 @@ class household_income(Variable):
         """A household's income."""
         salaries = household.members("salary", period)
         return household.sum(salaries)
+
+
+class categ_of_citizenship(Variable):
+    value_type = str
+    entity = Person
+    definition_period = YEAR
+    label = "Category of Citizenship"
+    reference = "https://law.gov.example/categ_of_citizenship"  # Always use the most official source
+
+class tax_years(Variable):
+    value_type = int
+    entity = Person
+    definition_period = YEAR
+    label = "Tax Years"
+    reference = "https://law.gov.example/tax_years"  # Always use the most official source
