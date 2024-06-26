@@ -69,13 +69,13 @@ Family = build_entity(
             "label": "Parents",
             "max": 2,
             "subroles": ["first_parent", "second_parent"],
-            "doc": "The one or two adults in charge of the household.",
+            "doc": "The one or two adults in charge of the family.",
         },
         {
             "key": "child",
             "plural": "children",
             "label": "Child",
-            "doc": "Other individuals living in the household.",
+            "doc": "Other individuals living in the family.",
         },
     ],
 )

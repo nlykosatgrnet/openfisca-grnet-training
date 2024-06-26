@@ -142,6 +142,37 @@ class eq_income_scale(Variable):
         return eq_income_scale.calc(eq_income)
 
 
+class dependent_children(Variable):
+    value_type = int
+    entity = Person
+    definition_period = YEAR
+    label = "Children benefit eq_income_scale"
+    reference = "https://law.gov.example/children_benefit"
+    # unit = "currency-EUR"
+    documentation = """
+    Children benefit good to have info here
+    """
+
+    def formula(person, period, parameters):
+        """
+        Children benefit.
+        """
+        # children = family.nb_persons(Family.CHILD)
+
+        marital_status_child = person("marital_status_child", period)
+        study_status = person("study_status", period)
+        disability_status = person("disability_status", period)
+        age = person("age", period.last_month)
+
+        dependent_children = marital_status_child * (
+                ( age < 25 ) * disability_status + 
+                ( age < 25 ) * np.logical_not( disability_status ) * ( 'Μαθητής' == study_status ) + 
+                ( age > 17 ) * ( age < 25 ) * np.logical_not( disability_status ) * ( 'Φοιτητής' == study_status )
+            )
+
+        return dependent_children
+
+
 class child_benefit_citizenship(Variable):
     value_type = int
     entity = Person
@@ -242,9 +273,34 @@ class categ_of_citizenship(Variable):
     label = "Category of Citizenship"
     reference = "https://law.gov.example/categ_of_citizenship"  # Always use the most official source
 
+
 class tax_years(Variable):
     value_type = int
     entity = Person
     definition_period = YEAR
     label = "Tax Years"
     reference = "https://law.gov.example/tax_years"  # Always use the most official source
+
+
+class marital_status_child(Variable):
+    value_type = bool
+    entity = Person
+    definition_period = YEAR
+    label = "Marital Status"
+    reference = "https://law.gov.example/marital_status_child"  # Always use the most official source
+
+
+class study_status(Variable):
+    value_type = str
+    entity = Person
+    definition_period = YEAR
+    label = "study_status"
+    reference = "https://law.gov.example/study_status"  # Always use the most official source
+
+
+class disability_status(Variable):
+    value_type = bool
+    entity = Person
+    definition_period = YEAR
+    label = "disability_status"
+    reference = "https://law.gov.example/disability_status"  # Always use the most official source
