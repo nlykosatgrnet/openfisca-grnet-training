@@ -86,8 +86,12 @@ class children_benefit(Variable):
         # TODO: Add citizenship check of applicant
         # TODO: Add citizenship check
         # TODO: Add dependent children check
-        dependent_children = family.nb_persons(Family.CHILD)
+        # dependent_children = family.nb_persons(Family.CHILD)
+        dependent_children = family("dependent_children", period)
         eq_income = family("eq_income", period)
+
+        # dependent_children = persons.family.members("dependent_children", period)
+        # family_has_dependent_children = persons.family.any(dependent_children, role=Family.CHILD)
 
         # benefits = np.zeros_like(eq_income)
         # 1) create conditions
@@ -116,7 +120,7 @@ class children_benefit(Variable):
         parent_citizenship = ( first_parent_citizenship + second_parent_citizenship ) > 0
 
         benefits = np.zeros_like(eq_income)
-        benefits = parent_citizenship * (dependent_children * per_child_benefit + (dependent_children >= parameters(period).benefits.children_benefit.multi_child) * (dependent_children[(dependent_children >= parameters(period).benefits.children_benefit.multi_child)] - (parameters(period).benefits.children_benefit.multi_child -1)) * per_child_benefit)
+        benefits = parent_citizenship * (dependent_children * per_child_benefit + (dependent_children >= parameters(period).benefits.children_benefit.multi_child) * (dependent_children - (parameters(period).benefits.children_benefit.multi_child -1)) * per_child_benefit)
 
         return benefits # this one is per month FRONTEND: Display both per month and per year amount
 
@@ -142,13 +146,12 @@ class eq_income_scale(Variable):
         return eq_income_scale.calc(eq_income)
 
 
-class dependent_children(Variable):
+class dependent_child(Variable):
     value_type = int
     entity = Person
     definition_period = YEAR
     label = "Children benefit eq_income_scale"
     reference = "https://law.gov.example/children_benefit"
-    # unit = "currency-EUR"
     documentation = """
     Children benefit good to have info here
     """
@@ -164,12 +167,34 @@ class dependent_children(Variable):
         disability_status = person("disability_status", period)
         age = person("age", period.last_month)
 
-        dependent_children = marital_status_child * (
+        dependent_child = marital_status_child * (
                 ( age < 25 ) * disability_status + 
                 ( age < 25 ) * np.logical_not( disability_status ) * ( 'Μαθητής' == study_status ) + 
                 ( age > 17 ) * ( age < 25 ) * np.logical_not( disability_status ) * ( 'Φοιτητής' == study_status )
             )
 
+        return dependent_child
+
+
+class dependent_children(Variable):
+    value_type = int
+    entity = Family
+    definition_period = YEAR
+    label = "Children benefit eq_income_scale"
+    reference = "https://law.gov.example/children_benefit"
+    documentation = """
+    Children benefit good to have info here
+    """
+
+    def formula(family, period, parameters):
+        """
+        Children benefit.
+        """
+        # children = family.nb_persons(Family.CHILD)
+
+        dependent_children_one = family.members("dependent_child", period)
+        
+        dependent_children = family.sum(dependent_children_one, role=Family.CHILD)
         return dependent_children
 
 

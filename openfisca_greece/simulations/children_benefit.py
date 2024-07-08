@@ -17,13 +17,13 @@ TEST_CASE = {
             'tax_years':{ '2019': 15 }
             },
         'Leila': {
-            'birth': {'ETERNITY': '2005-01-15'},
+            'birth': {'ETERNITY': '1992-01-15'},
             'marital_status_child' : { '2019': True },
             'disability_status' : { '2019': False },
             'study_status' : { '2019': 'Μαθητής' }
             },
         'Kostas': {
-            'birth': {'ETERNITY': '2005-01-15'},
+            'birth': {'ETERNITY': '1992-01-15'},
             'marital_status_child' : { '2019': True },
             'disability_status' : { '2019': False },
             'study_status' : { '2019': 'Μαθητής' }
@@ -36,7 +36,7 @@ TEST_CASE = {
             },
         'Mara': {
             'categ_of_citizenship' : { '2019': 'Πολίτης άλλου κράτους' },
-            'tax_years':{ '2019': 6 }
+            'tax_years':{ '2019': 16 }
             },
         'Javier': {
             'categ_of_citizenship' : { '2019': 'Πολίτης άλλου κράτους' },
@@ -55,7 +55,7 @@ TEST_CASE = {
             'study_status' : { '2019': 'Μαθητής' }
             },
         'Amaraki': {
-            'birth': {'ETERNITY': '2000-12-25'},
+            'birth': {'ETERNITY': '1999-12-25'},
             'marital_status_child' : { '2019': True },
             'disability_status' : { '2019': False },
             'study_status' : { '2019': 'Φοιτητής' }
