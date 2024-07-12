@@ -30,7 +30,7 @@
         study_status:
           2019: 'Μαθητής'
   output:
-    children_benefit: 42
+    dependent_children: 42
 
 - name: children_benefit for family with 2 parents and 3 children.
   period: 2019
@@ -90,4 +90,4 @@
         study_status:
           2019: 'Μαθητής'
   output:
-    children_benefit: 280
+    dependent_children: 280

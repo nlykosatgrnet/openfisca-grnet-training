@@ -13,9 +13,10 @@ from openfisca_core.variables import Variable
 
 # Import the Entities specifically defined for this tax and benefit system
 from openfisca_greece.entities import Person, Family
-import numpy as np
+# import numpy as np
 
-# This variable is a pure input: it doesn't have a formula
+
+#  This variable is a pure input: it doesn't have a formula
 class salary(Variable):
     value_type = float
     entity = Person
@@ -24,12 +25,14 @@ class salary(Variable):
     label = "Salary"
     reference = "https://law.gov.example/salary"  # Always use the most official source
 
+
 class family_income(Variable):
     value_type = float
     entity = Family
     definition_period = YEAR
     label = "Total income of a family in a year"
     reference = "https://law.gov.example/total_income"  # Always use the most official source
+
 
 class disposable_income(Variable):
     value_type = float
@@ -46,6 +49,7 @@ class disposable_income(Variable):
             - person("income_tax", period)
             - person("social_security_contribution", period)
             )
+
 
 class eq_scale(Variable):
     value_type = float
@@ -68,6 +72,7 @@ class eq_scale(Variable):
         parent_eq = parameters(period).benefits.children_benefit.parents_equivalent_scale
         eq_scales = parent_eq.calc(family.nb_persons(Family.PARENT)) + family.nb_persons(Family.CHILD) * parameters(period).benefits.children_benefit.per_child_scale_benefit + (family.nb_persons(Family.PARENT) == 1) * parameters(period).benefits.children_benefit.extra_scale_benefit
         return eq_scales
+
 
 class eq_income(Variable):
     value_type = float

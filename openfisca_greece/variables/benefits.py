@@ -68,6 +68,7 @@ class housing_allowance(Variable):
         """
         return household("rent", period) * parameters(period).benefits.housing_allowance
 
+
 class children_benefit(Variable):
     value_type = float
     entity = Family
@@ -112,17 +113,18 @@ class children_benefit(Variable):
         # # 3) default case for all other incomes
         # benefits[~(cond1 | cond2 | cond3)] = 0
 
-        eq_income_scale = family("eq_income_scale", period)        
+        eq_income_scale = family("eq_income_scale", period)
         P = parameters(period).benefits.children_benefit.children_equivalent_scale
         per_child_benefit = P.calc(eq_income_scale)
         first_parent_citizenship = family.first_parent("child_benefit_citizenship", period)
         second_parent_citizenship = family.second_parent("child_benefit_citizenship", period)
-        parent_citizenship = ( first_parent_citizenship + second_parent_citizenship ) > 0
+        parent_citizenship = (first_parent_citizenship + second_parent_citizenship) > 0
 
         benefits = np.zeros_like(eq_income)
-        benefits = parent_citizenship * (dependent_children * per_child_benefit + (dependent_children >= parameters(period).benefits.children_benefit.multi_child) * (dependent_children - (parameters(period).benefits.children_benefit.multi_child -1)) * per_child_benefit)
+        benefits = parent_citizenship * (dependent_children * per_child_benefit + (dependent_children >= parameters(period).benefits.children_benefit.multi_child) * (dependent_children - (parameters(period).benefits.children_benefit.multi_child - 1)) * per_child_benefit)
 
-        return benefits # this one is per month FRONTEND: Display both per month and per year amount
+        return benefits  # this one is per month FRONTEND: Display both per month and per year amount
+
 
 class eq_income_scale(Variable):
     value_type = int
@@ -168,9 +170,9 @@ class dependent_child(Variable):
         age = person("age", period.last_month)
 
         dependent_child = marital_status_child * (
-                ( age < 25 ) * disability_status + 
-                ( age < 25 ) * np.logical_not( disability_status ) * ( 'Μαθητής' == study_status ) + 
-                ( age > 17 ) * ( age < 25 ) * np.logical_not( disability_status ) * ( 'Φοιτητής' == study_status )
+            (age < 25) * disability_status
+            + (age < 25) * np.logical_not(disability_status) * ('Μαθητής' == study_status)
+            + (age > 17) * (age < 25) * np.logical_not(disability_status) * ('Φοιτητής' == study_status)
             )
 
         return dependent_child
@@ -193,7 +195,7 @@ class dependent_children(Variable):
         # children = family.nb_persons(Family.CHILD)
 
         dependent_children_one = family.members("dependent_child", period)
-        
+
         dependent_children = family.sum(dependent_children_one, role=Family.CHILD)
         return dependent_children
 
@@ -218,7 +220,7 @@ class child_benefit_citizenship(Variable):
             'Πολίτης κράτους-μέλους της ΕΕ',
             'Δικαιούχος του ανθρωπιστικού καθεστώτος',
             'Πολίτης Νορβηγίας, Ισλανδίας, Λιχτενστάιν ή Ελβετία'
-                          ]
+            ]
         second_category = ['Πολίτης άλλου κράτους']
 
         monimos_katoikos = (tax_years >= parameters(period).benefits.children_benefit.first_category_years) * (np.isin(categ_of_citizenship, first_category)) + (tax_years >= parameters(period).benefits.children_benefit.second_category_years) * (np.isin(categ_of_citizenship, second_category))

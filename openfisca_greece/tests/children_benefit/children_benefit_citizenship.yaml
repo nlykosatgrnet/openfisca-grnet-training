@@ -1,7 +1,7 @@
 # Test files describe situations and their expected outcomes
 # We can run this test on our command line using `openfisca-run-test children_benefit/children_benefit.yaml`
 
-- name: children_benefit for family with 2 parents and 3 children.
+- name: child_benefit_citizenship for family with 2 parents and 3 children.
   period: 2019
   input:
     family:
@@ -30,7 +30,7 @@
         study_status:
           2019: 'Μαθητής'
   output:
-    children_benefit: 42
+    child_benefit_citizenship: 42
 
 - name: children_benefit for family with 2 parents and 3 children.
   period: 2019
@@ -90,4 +90,4 @@
         study_status:
           2019: 'Μαθητής'
   output:
-    children_benefit: 280
+    child_benefit_citizenship: 280
