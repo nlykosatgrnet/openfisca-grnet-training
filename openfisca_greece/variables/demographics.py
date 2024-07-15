@@ -12,7 +12,7 @@ from datetime import date
 # Import from openfisca-core the Python objects used to code the legislation in OpenFisca
 from numpy import where
 
-from openfisca_core.periods import ETERNITY, MONTH
+from openfisca_core.periods import ETERNITY, MONTH, YEAR
 from openfisca_core.variables import Variable
 
 # Import the Entities specifically defined for this tax and benefit system
@@ -49,3 +49,21 @@ class age(Variable):
         is_birthday_past = (birth_month < period.start.month) + (birth_month == period.start.month) * (birth_day <= period.start.day)
 
         return (period.start.year - birth_year) - where(is_birthday_past, 0, 1)  # If the birthday is not passed this year, subtract one year
+
+
+class benefit_age(Variable):
+    value_type = int
+    entity = Person
+    definition_period = YEAR
+    label = "Person's age (in years)"
+
+    def formula(person, period, _parameters):
+        """
+        Person's age (in years).
+
+        A person's age is computed according to its birth date.
+        """
+        birth = person("birth", period)
+        birth_year = birth.astype("datetime64[Y]").astype(int) + 1970
+
+        return (period.start.year - birth_year)  # If the birthday is not passed this year, subtract one year

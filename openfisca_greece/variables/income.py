@@ -30,6 +30,7 @@ class family_income(Variable):
     value_type = float
     entity = Family
     definition_period = YEAR
+    default_value = 0
     label = "Total income of a family in a year"
     reference = "https://law.gov.example/total_income"  # Always use the most official source
 
